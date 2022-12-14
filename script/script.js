@@ -105,8 +105,8 @@ const populateValue = (value) => {
 };
 
 const operate = (operator, numberOne, numberTwo) => {
-  let stringToNumberOne = eval(numberOne);
-  let stringToNumberTwo = eval(numberTwo);
+  let stringToNumberOne = Number(numberOne);
+  let stringToNumberTwo = Number(numberTwo);
 
   switch (operator) {
     case "+":
@@ -174,12 +174,21 @@ const mathOperatorsDivide = (numberOne, numberTwo) => {
     return sum;
   }
   result = numberOne / numberTwo;
-  sum = result;
-  input[0].value = result;
-  numberOneFromUser = sum;
-  numberTwoFromUser = "";
-  inputValue = "";
-  return result;
+  if (result.toString().length > 7) {
+    sum = result.toFixed(4);
+    input[0].value = sum;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  } else {
+    sum = result;
+    input[0].value = result;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  }
 };
 
 /////////////////////////////
@@ -294,9 +303,8 @@ const handleTemplate = (operatorValue) => {
   if (currentOperator === "") {
     currentOperator = operatorValue;
   } else if (currentOperator !== operatorValue) {
-    if (false) {
-      /*numberOneFromUser.includes(".") */
-      numberOneFromUser = inputValue;
+    if (numberTwoFromUser === "") {
+      currentOperator = operatorValue;
     } else {
       numberTwoFromUser = inputValue;
       operate(currentOperator, numberOneFromUser, numberTwoFromUser);
