@@ -132,35 +132,61 @@ const operate = (operator, numberOne, numberTwo) => {
 const mathOperatorsAdd = (numberOne, numberTwo) => {
   let result = 0;
   result = numberOne + numberTwo;
-  sum = result;
-  input[0].value = result;
-  numberOneFromUser = sum;
-  numberTwoFromUser = "";
-  currentOperator = "+";
-  inputValue = "";
-  return result;
+  if (result.toString().length > 7) {
+    sum = result.toFixed(4);
+    input[0].value = sum;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  } else {
+    sum = result;
+    input[0].value = result;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  }
 };
 
 const mathOperatorsSubtract = (numberOne, numberTwo) => {
   let result = 0;
   result = numberOne - numberTwo;
-  sum = result;
-  input[0].value = result;
-  numberOneFromUser = sum;
-  numberTwoFromUser = "";
-  inputValue = "";
-  return result;
+  if (result.toString().length > 7) {
+    sum = result.toFixed(4);
+    input[0].value = sum;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  } else {
+    sum = result;
+    input[0].value = result;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  }
 };
 
 const mathOperatorsMultiply = (numberOne, numberTwo) => {
   let result = 0;
   result = numberOne * numberTwo;
-  sum = result;
-  input[0].value = result;
-  numberOneFromUser = sum;
-  numberTwoFromUser = "";
-  inputValue = "";
-  return result;
+  if (result.toString().length > 7) {
+    sum = result.toFixed(4);
+    input[0].value = sum;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  } else {
+    sum = result;
+    input[0].value = result;
+    numberOneFromUser = sum;
+    numberTwoFromUser = "";
+    inputValue = "";
+    return result;
+  }
 };
 
 const mathOperatorsDivide = (numberOne, numberTwo) => {
@@ -250,8 +276,13 @@ const handleDecimal = () => {
   if (inputValue.includes(".")) {
     inputValue = inputValue;
   } else {
-    inputValue = inputValue + ".";
-    input[0].value = inputValue;
+    if (inputValue === "") {
+      inputValue = "0" + ".";
+      input[0].value = inputValue;
+    } else {
+      inputValue = inputValue + ".";
+      input[0].value = inputValue;
+    }
   }
 };
 
