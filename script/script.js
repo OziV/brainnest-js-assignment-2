@@ -20,18 +20,42 @@ const buttons = [
   "=",
 ];
 
-const input = document.getElementsByClassName("grid-input");
-const inputKeyboardSupport = document.getElementById("grid-input-two");
+const main = document.getElementById("main");
+const section = document.createElement("section");
+section.setAttribute("id", "grid-container");
+section.setAttribute("class", "grid-container");
+main.appendChild(section);
+
 const gridContainer = document.getElementById("grid-container");
+
+const setAttributes = (element, attributes) => {
+  Object.keys(attributes).forEach((attr) => {
+    element.setAttribute(attr, attributes[attr]);
+  });
+};
+
+for (let i = 1; i < 3; i++) {
+  const attributesInputs = {
+    id: `input-${i}`,
+    class: `input-${i}`,
+    type: "text",
+    value: "0",
+    maxlength: "10",
+    readonly: true,
+  };
+  const inputNew = document.createElement("input");
+  setAttributes(inputNew, attributesInputs);
+  gridContainer.appendChild(inputNew);
+}
 
 for (let i = 0; i < buttons.length; i++) {
   const btn = document.createElement("button");
   btn.setAttribute("id", buttons[i]);
   btn.textContent = buttons[i];
   if (buttons[i] === 0) {
-    btn.setAttribute("class", "grid-zero");
+    btn.setAttribute("class", "btn-zero");
   } else if (buttons[i] === "AC" || buttons[i] === "%" || buttons[i] === "⌫") {
-    btn.setAttribute("class", "background-color-blue");
+    btn.setAttribute("class", "btn-background-color-blue");
   } else if (
     buttons[i] === "/" ||
     buttons[i] === "*" ||
@@ -39,17 +63,21 @@ for (let i = 0; i < buttons.length; i++) {
     buttons[i] === "+" ||
     buttons[i] === "="
   ) {
-    btn.setAttribute("class", "background-color-orange");
+    btn.setAttribute("class", "btn-background-color-orange");
   }
 
   btn.addEventListener("click", () => populateValue(btn.id));
   gridContainer.appendChild(btn);
 }
+
+const input = document.getElementById("input-1");
+const inputKeyboardSupport = document.getElementById("input-2");
+
 /////////////////////////////
 /* Global Variables */
 /////////////////////////////
 
-let inputValue = input[0].value;
+let inputValue = input.value;
 let keyboardSupport = inputKeyboardSupport.value;
 let numberCurrent = "";
 let numberOneFromUser = "";
@@ -134,14 +162,14 @@ const mathOperatorsAdd = (numberOne, numberTwo) => {
   result = numberOne + numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
@@ -154,14 +182,14 @@ const mathOperatorsSubtract = (numberOne, numberTwo) => {
   result = numberOne - numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
@@ -174,14 +202,14 @@ const mathOperatorsMultiply = (numberOne, numberTwo) => {
   result = numberOne * numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
@@ -193,7 +221,7 @@ const mathOperatorsDivide = (numberOne, numberTwo) => {
   let result = 0;
   if (!numberTwo) {
     sum = "lmao";
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
@@ -202,14 +230,14 @@ const mathOperatorsDivide = (numberOne, numberTwo) => {
   result = numberOne / numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
     inputValue = "";
@@ -225,7 +253,7 @@ const clearAll = () => {
   buttonValue = "";
   inputValue = "";
   keyboardSupport = "";
-  input[0].value = "0";
+  input.value = "0";
   inputKeyboardSupport.value = "";
   numberCurrent = "";
   numberOneFromUser = "";
@@ -235,24 +263,24 @@ const clearAll = () => {
 };
 
 const handleChangeNumbers = (value) => {
-  if (input[0].value.length < 10) {
+  if (input.value.length < 10) {
     if (sum !== "" && currentOperator !== "") {
       inputValue = "";
       numberOneFromUser = sum;
       numberTwoFromUser = inputValue;
     }
-    if (input[0].value === "0") {
-      input[0].value = "";
+    if (input.value === "0") {
+      input.value = "";
       inputValue = "";
       inputValue = inputValue + value;
-      input[0].value = inputValue;
+      input.value = inputValue;
     } else {
       inputValue = inputValue + value;
-      input[0].value = inputValue;
+      input.value = inputValue;
     }
   } else {
     inputValue = inputValue;
-    input[0].value = inputValue;
+    input.value = inputValue;
   }
 };
 
@@ -278,10 +306,10 @@ const handleDecimal = () => {
   } else {
     if (inputValue === "") {
       inputValue = "0" + ".";
-      input[0].value = inputValue;
+      input.value = inputValue;
     } else {
       inputValue = inputValue + ".";
-      input[0].value = inputValue;
+      input.value = inputValue;
     }
   }
 };
@@ -289,10 +317,10 @@ const handleDecimal = () => {
 const handleBackspace = () => {
   if (inputValue.length > 1) {
     inputValue = inputValue.substring(0, inputValue.length - 1);
-    input[0].value = inputValue;
+    input.value = inputValue;
   } else {
     inputValue = "";
-    input[0].value = 0;
+    input.value = 0;
   }
 };
 
