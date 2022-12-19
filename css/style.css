@@ -7,6 +7,7 @@
 
 html, body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -35,15 +36,23 @@ main {
 }
 
 button {
+    cursor: pointer;
     font-size: 26px;
     font-stretch: 100%;
     background-color:  #217C7E;
-    border-radius: 5%;
+    border-radius: 10%;
     height: 50px;
     width: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 5px #999;
+}
+
+button:active {
+    background-color: #1b5f60;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
 .input-1 {
@@ -58,7 +67,6 @@ button {
     font-weight: bold;
     text-align: right;
     padding-right: 2rem;
-   
 }
 
 .input-2 {
@@ -85,12 +93,29 @@ button {
     background-color: #1E90FF
 }
 
+.btn-background-color-blue:active {
+    background-color: #1970c7;
+}
+
 .btn-background-color-blueLight {
     background-color: #82bef9
 }
 
+.btn-background-color-blueLight:active {
+    background-color: #6b9ccd;
+}
+
 .btn-background-color-orange {
     background-color: #FF8F1F
+}
+
+.btn-background-color-orange:active {
+    background-color: #cc7218;
+}
+
+.footer {
+    margin: 0.5rem;
+    color: #ffffff
 }
 
 @media only screen and (max-width: 768px) {
@@ -122,9 +147,20 @@ button {
     font-stretch: 100%;
     height: 40px;
     width: 80px;
+    box-shadow: 0 1px #999;
 }
 
 .btn-zero {
     width: 170px;
     }
+
+.footer {
+    margin: -3rem;
+    color: #ffffff
+    }
+}
+
+a,a::after {
+    color: #ffffff;
+    text-decoration: none;
 }
