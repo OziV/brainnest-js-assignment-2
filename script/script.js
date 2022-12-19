@@ -1,7 +1,11 @@
 const buttons = [
+  "%",
+  "+/-",
   "AC",
   "⌫",
-  "%",
+  "¹∕ₓ",
+  "ₓ²",
+  "²√ₓ",
   "/",
   7,
   8,
@@ -54,8 +58,19 @@ for (let i = 0; i < buttons.length; i++) {
   btn.textContent = buttons[i];
   if (buttons[i] === 0) {
     btn.setAttribute("class", "btn-zero");
-  } else if (buttons[i] === "AC" || buttons[i] === "%" || buttons[i] === "⌫") {
+  } else if (
+    buttons[i] === "AC" ||
+    buttons[i] === "%" ||
+    buttons[i] === "⌫" ||
+    buttons[i] === "+/-"
+  ) {
     btn.setAttribute("class", "btn-background-color-blue");
+  } else if (
+    buttons[i] === "¹∕ₓ" ||
+    buttons[i] === "ₓ²" ||
+    buttons[i] === "²√ₓ"
+  ) {
+    btn.setAttribute("class", "btn-background-color-blueLight");
   } else if (
     buttons[i] === "/" ||
     buttons[i] === "*" ||
