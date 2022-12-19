@@ -124,6 +124,18 @@ const populateValue = (value) => {
     case "%":
       handleOperatorPercent();
       break;
+    case "+/-":
+      handleOperatorChangeSign();
+      break;
+    case "¹∕ₓ":
+      handleOperatorFraction();
+      break;
+    case "ₓ²":
+      handleOperatorSquare();
+      break;
+    case "²√ₓ":
+      handleOperatorSquareRoot();
+      break;
     case ".":
       handleDecimal();
       break;
@@ -367,6 +379,22 @@ const handleOperatorDivide = () => {
 };
 
 const handleOperatorPercent = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorChangeSign = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorFraction = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorSquare = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorSquareRoot = () => {
   console.log("For Planning...");
 };
 
