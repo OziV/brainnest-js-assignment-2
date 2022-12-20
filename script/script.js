@@ -1,39 +1,6 @@
-const buttons = [
-  "%",
-  "+/-",
-  "AC",
-  "⌫",
-  "¹∕ₓ",
-  "ₓ²",
-  "²√ₓ",
-  "/",
-  7,
-  8,
-  9,
-  "*",
-  4,
-  5,
-  6,
-  "-",
-  1,
-  2,
-  3,
-  "+",
-  0,
-  ".",
-  "=",
-];
-
-const getYear = () => new Date().getFullYear();
-
-const main = document.getElementById("main");
-const section = document.createElement("section");
-section.setAttribute("id", "grid-container");
-section.setAttribute("class", "grid-container");
-main.appendChild(section);
-
 const gridContainer = document.getElementById("grid-container");
 
+const getYear = () => new Date().getFullYear();
 const footer = document.getElementById("footer");
 const link = document.createElement("a");
 link.href = "https://github.com/OziV";
@@ -60,41 +27,93 @@ for (let i = 1; i < 3; i++) {
   gridContainer.appendChild(input);
 }
 
-for (let i = 0; i < buttons.length; i++) {
+const input = document.getElementById("input-1");
+const inputKSupport = document.getElementById("input-2");
+
+const buttons = {
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+  percent: "%",
+  changeSign: "+/-",
+  clear: "AC",
+  backspace: "⌫",
+  add: "+",
+  subtract: "-",
+  multiply: "*",
+  divide: "/",
+  calculate: "=",
+  decimal: ".",
+  fraction: "¹∕ₓ",
+  square: "ₓ²",
+  squareRoot: "²√ₓ",
+};
+
+Object.keys(buttons).forEach((button) => {
+  const attributesButtons = {
+    id: button,
+    class: `btn`,
+    type: `button`,
+    value: buttons[button],
+  };
   const btn = document.createElement("button");
-  btn.setAttribute("id", buttons[i]);
-  btn.textContent = buttons[i];
-  if (buttons[i] === 0) {
-    btn.setAttribute("class", "btn-zero");
-  } else if (
-    buttons[i] === "AC" ||
-    buttons[i] === "%" ||
-    buttons[i] === "⌫" ||
-    buttons[i] === "+/-"
-  ) {
-    btn.setAttribute("class", "btn-background-color-blue");
-  } else if (
-    buttons[i] === "¹∕ₓ" ||
-    buttons[i] === "ₓ²" ||
-    buttons[i] === "²√ₓ"
-  ) {
-    btn.setAttribute("class", "btn-background-color-blueLight");
-  } else if (
-    buttons[i] === "/" ||
-    buttons[i] === "*" ||
-    buttons[i] === "-" ||
-    buttons[i] === "+" ||
-    buttons[i] === "="
-  ) {
-    btn.setAttribute("class", "btn-background-color-orange");
+  btn.textContent = buttons[button];
+  setAttributes(btn, attributesButtons);
+  switch (button) {
+    case "0":
+      btn.setAttribute("class", "btn-zero");
+      break;
+    case "clear":
+    case "percent":
+    case "backspace":
+    case "changeSign":
+      btn.setAttribute("class", "btn-background-color-blue");
+      break;
+    case "fraction":
+    case "square":
+    case "squareRoot":
+      btn.setAttribute("class", "btn-background-color-lightBlue");
+      break;
+    case "divide":
+    case "multiply":
+    case "subtract":
+    case "add":
+    case "calculate":
+      btn.setAttribute("class", "btn-background-color-orange");
+      break;
+    case "decimal":
+      btn.setAttribute("class", "btn-decimal");
+      break;
+    case "1":
+    case "2":
+    case "3":
+      btn.setAttribute("class", "btn-number-row-1");
+      break;
+    case "4":
+    case "5":
+    case "6":
+      btn.setAttribute("class", "btn-number-row-2");
+      break;
+    case "7":
+    case "8":
+    case "9":
+      btn.setAttribute("class", "btn-number-row-3");
+      break;
+    default:
+      btn.setAttribute("class", "btn-number");
   }
 
   btn.addEventListener("click", () => populateValue(btn.id));
   gridContainer.appendChild(btn);
-}
+});
 
-const input = document.getElementById("input-1");
-const inputKSupport = document.getElementById("input-2");
 
 /////////////////////////////
 /* Global Variables */
@@ -114,43 +133,43 @@ let sum = "";
 
 const populateValue = (value) => {
   switch (value) {
-    case "AC":
+    case "clear":
       clearAll();
       break;
-    case "+":
+    case "add":
       handleOperatorAdd();
       break;
-    case "-":
+    case "subtract":
       handleOperatorSubtract();
       break;
-    case "*":
+    case "multiply":
       handleOperatorMultiply();
       break;
-    case "/":
+    case "divide":
       handleOperatorDivide();
       break;
-    case "%":
+    case "percent":
       handleOperatorPercent();
       break;
-    case "+/-":
+    case "changeSign":
       handleOperatorChangeSign();
       break;
-    case "¹∕ₓ":
+    case "fraction":
       handleOperatorFraction();
       break;
-    case "ₓ²":
+    case "square":
       handleOperatorSquare();
       break;
-    case "²√ₓ":
+    case "squareRoot":
       handleOperatorSquareRoot();
       break;
-    case ".":
+    case "decimal":
       handleDecimal();
       break;
-    case "⌫":
+    case "backspace":
       handleBackspace();
       break;
-    case "=":
+    case "calculate":
       handleCalculate();
       break;
     default:
@@ -158,12 +177,12 @@ const populateValue = (value) => {
   }
   handleKeyboardSupport();
 
-  console.log(`numberOneFromUser: ${numberOneFromUser}`);
-  console.log(`numberTwoFromUser: ${numberTwoFromUser}`);
-  console.log(`inputDisplaySum: ${inputDisplaySum}`);
-  console.log(`inputKeyboardSupport: ${inputKeyboardSupport}`);
-  console.log(`currentOperator: ${currentOperator}`);
-  console.log(`sum: ${sum}`);
+  // console.log(`numberOneFromUser: ${numberOneFromUser}`);
+  // console.log(`numberTwoFromUser: ${numberTwoFromUser}`);
+  // console.log(`inputDisplaySum: ${inputDisplaySum}`);
+  // console.log(`inputKeyboardSupport: ${inputKeyboardSupport}`);
+  // console.log(`currentOperator: ${currentOperator}`);
+  // console.log(`sum: ${sum}`);
   return;
 };
 
@@ -286,10 +305,10 @@ const mathOperatorsDivide = (numberOne, numberTwo) => {
 
 const clearAll = () => {
   buttonValue = "";
-  inputDisplaySum = "";
-  inputKeyboardSupport = "";
+  inputDisplaySum = "0";
+  inputKeyboardSupport = "0";
   input.value = "0";
-  inputKSupport.value = "";
+  inputKSupport.value = "0";
   numberCurrent = "";
   numberOneFromUser = "";
   numberTwoFromUser = "";

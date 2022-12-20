@@ -4,14 +4,12 @@
     background-color: #1c2a6d;
     font-family: monospace;
 }
-
 html, body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
 main {
     display: flex;
     justify-content: center;
@@ -19,7 +17,6 @@ main {
     margin-top: 3rem;
     height: 500px;
 }
-
 .grid-container {
     display: grid;
     justify-content: center;
@@ -34,7 +31,6 @@ main {
     grid-template-columns: repeat(4, 105px);
     grid-template-rows: repeat(8, 60px);
 }
-
 button {
     cursor: pointer;
     font-size: 26px;
@@ -48,13 +44,11 @@ button {
     align-items: center;
     box-shadow: 0 5px #999;
 }
-
 button:active {
     background-color: #1b5f60;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
 .input-1 {
     grid-column: 1 / 5;
     grid-row: 1;
@@ -68,7 +62,6 @@ button:active {
     text-align: right;
     padding-right: 2rem;
 }
-
 .input-2 {
     grid-column: 1 / 5;
     grid-row: 2;
@@ -82,66 +75,78 @@ button:active {
     text-align: right;
     padding-right: 2rem;
 }
-
 .btn-zero {
     grid-column: 1 / 3;
     grid-row: 8;
     width: 200px;
 }
-
-.btn-background-color-blue {
-    background-color: #1E90FF
+.btn-number-row-1 {
+    grid-row: 7;
 }
-
+.btn-number-row-2 {
+    grid-row: 6;
+}
+.btn-number-row-3 {
+    grid-row: 5;
+}
+.btn-decimal {
+    grid-row: 8;
+    grid-column: 3;
+}
+.btn-background-color-blue {
+    background-color: #1E90FF;
+    grid-row: 3;
+}
 .btn-background-color-blue:active {
     background-color: #1970c7;
 }
-
-.btn-background-color-blueLight {
-    background-color: #82bef9
+.btn-background-color-lightBlue {
+    background-color: #82bef9;
+    grid-row: 4;
 }
-
-.btn-background-color-blueLight:active {
+.btn-background-color-lightBlue:active {
     background-color: #6b9ccd;
 }
-
 .btn-background-color-orange {
-    background-color: #FF8F1F
+    background-color: #FF8F1F;
+    grid-column: 4;
 }
-
 .btn-background-color-orange:active {
     background-color: #cc7218;
 }
-
+.btn-pressed {
+    border-color: #ffffff;
+    border-style: inherit;
+}
+a,
+a::after {
+    color: #ffffff;
+    text-decoration: none;
+}
 .footer {
     margin: 0.5rem;
     color: #ffffff
 }
 
 @media only screen and (max-width: 768px) {
-
 main {
     margin-top: -1rem;
 }
-
 .grid-container {
     height: 29rem;
     width: 30rem;
     grid-template-columns: repeat(4, 90px);
     grid-template-rows: repeat(8, 45px);
 }
-
 .input-1 {
     margin-top: 25px;
     font-size: 40px;
     font-size: 30px;
 }
-
 .input-2 {
     height: 25px;
     font-size: 10px;
 }
-
 button {
     font-size: 18px;
     font-stretch: 100%;
@@ -149,18 +154,11 @@ button {
     width: 80px;
     box-shadow: 0 1px #999;
 }
-
 .btn-zero {
     width: 170px;
-    }
-
+}
 .footer {
     margin: -3rem;
     color: #ffffff
-    }
 }
-
-a,a::after {
-    color: #ffffff;
-    text-decoration: none;
 }
