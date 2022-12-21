@@ -51,9 +51,9 @@ const buttons = {
   divide: "/",
   calculate: "=",
   decimal: ".",
-  fraction: "¹∕ₓ",
-  square: "ₓ²",
-  squareRoot: "²√ₓ",
+  fraction: "¹/x",
+  square: "x²",
+  squareRoot: "²√x",
 };
 
 Object.keys(buttons).forEach((button) => {
@@ -113,7 +113,6 @@ Object.keys(buttons).forEach((button) => {
   btn.addEventListener("click", () => populateValue(btn.id));
   gridContainer.appendChild(btn);
 });
-
 
 /////////////////////////////
 /* Global Variables */
@@ -406,23 +405,23 @@ const handleOperatorDivide = () => {
 };
 
 const handleOperatorPercent = () => {
-  console.log("For Planning...");
+  alert("Soon...");
 };
 
 const handleOperatorChangeSign = () => {
-  console.log("For Planning...");
+  alert("Soon...");
 };
 
 const handleOperatorFraction = () => {
-  console.log("For Planning...");
+  alert("Soon...");
 };
 
 const handleOperatorSquare = () => {
-  console.log("For Planning...");
+  alert("Soon...");
 };
 
 const handleOperatorSquareRoot = () => {
-  console.log("For Planning...");
+  alert("Soon...");
 };
 
 const handleTemplate = (operatorValue) => {
