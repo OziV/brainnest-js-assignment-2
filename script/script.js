@@ -1,56 +1,126 @@
-const buttons = [
-  "AC",
-  "⌫",
-  "%",
-  "/",
-  7,
-  8,
-  9,
-  "*",
-  4,
-  5,
-  6,
-  "-",
-  1,
-  2,
-  3,
-  "+",
-  0,
-  ".",
-  "=",
-];
-
-const input = document.getElementsByClassName("grid-input");
-const inputKeyboardSupport = document.getElementById("grid-input-two");
 const gridContainer = document.getElementById("grid-container");
 
-for (let i = 0; i < buttons.length; i++) {
+const getYear = () => new Date().getFullYear();
+const footer = document.getElementById("footer");
+const link = document.createElement("a");
+link.href = "https://github.com/OziV";
+link.innerText = `© ${getYear()} OziV`;
+footer.appendChild(link);
+
+const setAttributes = (element, attributes) => {
+  Object.keys(attributes).forEach((attr) => {
+    element.setAttribute(attr, attributes[attr]);
+  });
+};
+
+for (let i = 1; i < 3; i++) {
+  const attributesInputs = {
+    id: `input-${i}`,
+    class: `input-${i}`,
+    type: "text",
+    value: "0",
+    maxlength: "10",
+    readonly: true,
+  };
+  const input = document.createElement("input");
+  setAttributes(input, attributesInputs);
+  gridContainer.appendChild(input);
+}
+
+const input = document.getElementById("input-1");
+const inputKSupport = document.getElementById("input-2");
+
+const buttons = {
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+  percent: "%",
+  changeSign: "+/-",
+  clear: "AC",
+  backspace: "⌫",
+  add: "+",
+  subtract: "-",
+  multiply: "*",
+  divide: "/",
+  calculate: "=",
+  decimal: ".",
+  fraction: "¹∕ₓ",
+  square: "ₓ²",
+  squareRoot: "²√ₓ",
+};
+
+Object.keys(buttons).forEach((button) => {
+  const attributesButtons = {
+    id: button,
+    class: `btn`,
+    type: `button`,
+    value: buttons[button],
+  };
   const btn = document.createElement("button");
-  btn.setAttribute("id", buttons[i]);
-  btn.textContent = buttons[i];
-  if (buttons[i] === 0) {
-    btn.setAttribute("class", "grid-zero");
-  } else if (buttons[i] === "AC" || buttons[i] === "%" || buttons[i] === "⌫") {
-    btn.setAttribute("class", "background-color-blue");
-  } else if (
-    buttons[i] === "/" ||
-    buttons[i] === "*" ||
-    buttons[i] === "-" ||
-    buttons[i] === "+" ||
-    buttons[i] === "="
-  ) {
-    btn.setAttribute("class", "background-color-orange");
+  btn.textContent = buttons[button];
+  setAttributes(btn, attributesButtons);
+  switch (button) {
+    case "0":
+      btn.setAttribute("class", "btn-zero");
+      break;
+    case "clear":
+    case "percent":
+    case "backspace":
+    case "changeSign":
+      btn.setAttribute("class", "btn-background-color-blue");
+      break;
+    case "fraction":
+    case "square":
+    case "squareRoot":
+      btn.setAttribute("class", "btn-background-color-lightBlue");
+      break;
+    case "divide":
+    case "multiply":
+    case "subtract":
+    case "add":
+    case "calculate":
+      btn.setAttribute("class", "btn-background-color-orange");
+      break;
+    case "decimal":
+      btn.setAttribute("class", "btn-decimal");
+      break;
+    case "1":
+    case "2":
+    case "3":
+      btn.setAttribute("class", "btn-number-row-1");
+      break;
+    case "4":
+    case "5":
+    case "6":
+      btn.setAttribute("class", "btn-number-row-2");
+      break;
+    case "7":
+    case "8":
+    case "9":
+      btn.setAttribute("class", "btn-number-row-3");
+      break;
+    default:
+      btn.setAttribute("class", "btn-number");
   }
 
   btn.addEventListener("click", () => populateValue(btn.id));
   gridContainer.appendChild(btn);
-}
+});
+
+
 /////////////////////////////
 /* Global Variables */
 /////////////////////////////
 
-let inputValue = input[0].value;
-let keyboardSupport = inputKeyboardSupport.value;
+let inputDisplaySum = input.value;
+let inputKeyboardSupport = inputKSupport.value;
 let numberCurrent = "";
 let numberOneFromUser = "";
 let numberTwoFromUser = "";
@@ -63,31 +133,43 @@ let sum = "";
 
 const populateValue = (value) => {
   switch (value) {
-    case "AC":
+    case "clear":
       clearAll();
       break;
-    case "+":
+    case "add":
       handleOperatorAdd();
       break;
-    case "-":
+    case "subtract":
       handleOperatorSubtract();
       break;
-    case "*":
+    case "multiply":
       handleOperatorMultiply();
       break;
-    case "/":
+    case "divide":
       handleOperatorDivide();
       break;
-    case "%":
+    case "percent":
       handleOperatorPercent();
       break;
-    case ".":
+    case "changeSign":
+      handleOperatorChangeSign();
+      break;
+    case "fraction":
+      handleOperatorFraction();
+      break;
+    case "square":
+      handleOperatorSquare();
+      break;
+    case "squareRoot":
+      handleOperatorSquareRoot();
+      break;
+    case "decimal":
       handleDecimal();
       break;
-    case "⌫":
+    case "backspace":
       handleBackspace();
       break;
-    case "=":
+    case "calculate":
       handleCalculate();
       break;
     default:
@@ -97,8 +179,8 @@ const populateValue = (value) => {
 
   // console.log(`numberOneFromUser: ${numberOneFromUser}`);
   // console.log(`numberTwoFromUser: ${numberTwoFromUser}`);
-  // console.log(`inputValue: ${inputValue}`);
-  // console.log(`keyboardSupport: ${keyboardSupport}`);
+  // console.log(`inputDisplaySum: ${inputDisplaySum}`);
+  // console.log(`inputKeyboardSupport: ${inputKeyboardSupport}`);
   // console.log(`currentOperator: ${currentOperator}`);
   // console.log(`sum: ${sum}`);
   return;
@@ -134,17 +216,17 @@ const mathOperatorsAdd = (numberOne, numberTwo) => {
   result = numberOne + numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   }
 };
@@ -154,17 +236,17 @@ const mathOperatorsSubtract = (numberOne, numberTwo) => {
   result = numberOne - numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   }
 };
@@ -174,17 +256,17 @@ const mathOperatorsMultiply = (numberOne, numberTwo) => {
   result = numberOne * numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   }
 };
@@ -193,26 +275,26 @@ const mathOperatorsDivide = (numberOne, numberTwo) => {
   let result = 0;
   if (!numberTwo) {
     sum = "lmao";
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return sum;
   }
   result = numberOne / numberTwo;
   if (result.toString().length > 7) {
     sum = result.toFixed(4);
-    input[0].value = sum;
+    input.value = sum;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   } else {
     sum = result;
-    input[0].value = result;
+    input.value = result;
     numberOneFromUser = sum;
     numberTwoFromUser = "";
-    inputValue = "";
+    inputDisplaySum = "";
     return result;
   }
 };
@@ -223,10 +305,10 @@ const mathOperatorsDivide = (numberOne, numberTwo) => {
 
 const clearAll = () => {
   buttonValue = "";
-  inputValue = "";
-  keyboardSupport = "";
-  input[0].value = "0";
-  inputKeyboardSupport.value = "";
+  inputDisplaySum = "0";
+  inputKeyboardSupport = "0";
+  input.value = "0";
+  inputKSupport.value = "0";
   numberCurrent = "";
   numberOneFromUser = "";
   numberTwoFromUser = "";
@@ -235,71 +317,71 @@ const clearAll = () => {
 };
 
 const handleChangeNumbers = (value) => {
-  if (input[0].value.length < 10) {
+  if (input.value.length < 10) {
     if (sum !== "" && currentOperator !== "") {
-      inputValue = "";
+      inputDisplaySum = "";
       numberOneFromUser = sum;
-      numberTwoFromUser = inputValue;
+      numberTwoFromUser = inputDisplaySum;
     }
-    if (input[0].value === "0") {
-      input[0].value = "";
-      inputValue = "";
-      inputValue = inputValue + value;
-      input[0].value = inputValue;
+    if (input.value === "0") {
+      input.value = "";
+      inputDisplaySum = "";
+      inputDisplaySum = inputDisplaySum + value;
+      input.value = inputDisplaySum;
     } else {
-      inputValue = inputValue + value;
-      input[0].value = inputValue;
+      inputDisplaySum = inputDisplaySum + value;
+      input.value = inputDisplaySum;
     }
   } else {
-    inputValue = inputValue;
-    input[0].value = inputValue;
+    inputDisplaySum = inputDisplaySum;
+    input.value = inputDisplaySum;
   }
 };
 
 const handleKeyboardSupport = () => {
   if (currentOperator === "") {
-    keyboardSupport = inputValue;
-    inputKeyboardSupport.value = keyboardSupport;
+    inputKeyboardSupport = inputDisplaySum;
+    inputKSupport.value = inputKeyboardSupport;
   } else {
     if (sum !== "" && numberOneFromUser === "") {
-      inputKeyboardSupport.value = `${sum}`;
+      inputKSupport.value = `${sum}`;
     } else if (sum !== "") {
-      inputKeyboardSupport.value = `${sum} ${currentOperator} ${inputValue}`;
+      inputKSupport.value = `${sum} ${currentOperator} ${inputDisplaySum}`;
     } else {
-      keyboardSupport = inputValue;
-      inputKeyboardSupport.value = `${numberOneFromUser} ${currentOperator} ${keyboardSupport}`;
+      inputKeyboardSupport = inputDisplaySum;
+      inputKSupport.value = `${numberOneFromUser} ${currentOperator} ${inputKeyboardSupport}`;
     }
   }
 };
 
 const handleDecimal = () => {
-  if (inputValue.includes(".")) {
-    inputValue = inputValue;
+  if (inputDisplaySum.includes(".")) {
+    inputDisplaySum = inputDisplaySum;
   } else {
-    if (inputValue === "") {
-      inputValue = "0" + ".";
-      input[0].value = inputValue;
+    if (inputDisplaySum === "") {
+      inputDisplaySum = "0" + ".";
+      input.value = inputDisplaySum;
     } else {
-      inputValue = inputValue + ".";
-      input[0].value = inputValue;
+      inputDisplaySum = inputDisplaySum + ".";
+      input.value = inputDisplaySum;
     }
   }
 };
 
 const handleBackspace = () => {
-  if (inputValue.length > 1) {
-    inputValue = inputValue.substring(0, inputValue.length - 1);
-    input[0].value = inputValue;
+  if (inputDisplaySum.length > 1) {
+    inputDisplaySum = inputDisplaySum.substring(0, inputDisplaySum.length - 1);
+    input.value = inputDisplaySum;
   } else {
-    inputValue = "";
-    input[0].value = 0;
+    inputDisplaySum = "";
+    input.value = 0;
   }
 };
 
 const handleCalculate = () => {
   if (numberOneFromUser !== "" && currentOperator !== "") {
-    if (inputValue !== "") {
-      numberTwoFromUser = inputValue;
+    if (inputDisplaySum !== "") {
+      numberTwoFromUser = inputDisplaySum;
       operate(currentOperator, numberOneFromUser, numberTwoFromUser);
     } else {
       return;
@@ -327,8 +409,24 @@ const handleOperatorPercent = () => {
   console.log("For Planning...");
 };
 
+const handleOperatorChangeSign = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorFraction = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorSquare = () => {
+  console.log("For Planning...");
+};
+
+const handleOperatorSquareRoot = () => {
+  console.log("For Planning...");
+};
+
 const handleTemplate = (operatorValue) => {
-  if (currentOperator === operatorValue && inputValue === "") {
+  if (currentOperator === operatorValue && inputDisplaySum === "") {
     return;
   }
   if (currentOperator === "") {
@@ -337,24 +435,24 @@ const handleTemplate = (operatorValue) => {
     if (numberTwoFromUser === "") {
       currentOperator = operatorValue;
     } else {
-      numberTwoFromUser = inputValue;
+      numberTwoFromUser = inputDisplaySum;
       operate(currentOperator, numberOneFromUser, numberTwoFromUser);
       currentOperator = operatorValue;
       return;
     }
     // operate(currentOperator, numberOneFromUser, numberTwoFromUser);
     // currentOperator = operatorValue;
-  } else if (currentOperator === operatorValue && inputValue !== "") {
-    numberTwoFromUser = inputValue;
+  } else if (currentOperator === operatorValue && inputDisplaySum !== "") {
+    numberTwoFromUser = inputDisplaySum;
     operate(currentOperator, numberOneFromUser, numberTwoFromUser);
   }
   if (sum === "") {
     if (numberOneFromUser === "") {
-      numberOneFromUser = inputValue;
+      numberOneFromUser = inputDisplaySum;
     }
-    inputValue = "";
+    inputDisplaySum = "";
   } else {
     numberOneFromUser = sum;
   }
-  inputValue = "";
+  inputDisplaySum = "";
 };
